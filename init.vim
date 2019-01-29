@@ -22,7 +22,11 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
 Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
+" Both of these are for vim-markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
+Plug 'sbdchd/neoformat'
 
 " Initializu plugin system
 call plug#end()
@@ -34,7 +38,9 @@ colorscheme onedark
 
 set termguicolors
 
+set number
 
+set spell spelllang=en_us
 " On boot
 autocmd vimenter * NERDTree
 
@@ -49,3 +55,25 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_javascript_checkers=['eslint']
+
+" Nerd Tree 
+set splitright
+
+" Neoformat 
+let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
+let g:neoformat_run_all_formatters = 1
+
+" Enable alignment
+let g:neoformat_basic_format_align = 1
+
+" Enable tab to spaces conversion
+let g:neoformat_basic_format_retab = 1
+
+" Enable trimmming of trailing whitespace
+let g:neoformat_basic_format_trim = 1
+
+autocmd BufWritePre *.js,*.jsx,*.json,*.ts,*.css,*.scss,*.rb Neoformat
+
+
+" Ctrl P Ignore Node Modules
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|vendor'
