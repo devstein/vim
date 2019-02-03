@@ -22,14 +22,24 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
 Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
+
 " Both of these are for vim-markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
 Plug 'sbdchd/neoformat'
 
-" Initializu plugin system
+" Initialize plugin system
 call plug#end()
+
+" On boot
+autocmd vimenter * NERDTree
+
+" Remap leader key
+let mapleader = "\<Space>"
+
+" jk to escape
+inoremap jk <esc>
 
 " Color Scheme
 syntax on
@@ -41,8 +51,16 @@ set termguicolors
 set number
 
 set spell spelllang=en_us
-" On boot
-autocmd vimenter * NERDTree
+
+
+" Spellcheck
+set spell spelllang=en_us
+
+" Correct Next Mispelling
+nnoremap <leader>f 1z=
+
+" Toggle Spellcheck
+nnoremap <leader>s :set spell!
 
 " Syntastic Configs 
 set statusline+=%#warningmsg#
@@ -72,8 +90,8 @@ let g:neoformat_basic_format_retab = 1
 " Enable trimmming of trailing whitespace
 let g:neoformat_basic_format_trim = 1
 
-autocmd BufWritePre *.js,*.jsx,*.json,*.ts,*.css,*.scss,*.rb Neoformat
+autocmd BufWritePre *.js,*.jsx,*.json,*.ts,*.css,*.scss Neoformat
 
 
 " Ctrl P Ignore Node Modules
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|vendor'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
