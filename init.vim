@@ -76,6 +76,7 @@ let g:syntastic_javascript_checkers=['eslint']
 
 " Nerd Tree 
 set splitright
+let NERDTreeShowHidden=1
 
 " Neoformat 
 let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
