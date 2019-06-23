@@ -13,6 +13,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'sheerun/vim-polyglot'
 
 Plug 'terryma/vim-multiple-cursors'
+Plug 'justinmk/vim-sneak'
 
 Plug 'scrooloose/nerdcommenter'
 
