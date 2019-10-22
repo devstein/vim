@@ -11,6 +11,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-repeat'
+Plug 'mileszs/ack.vim'
 
 " Git
 Plug 'airblade/vim-gitgutter'
