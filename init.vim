@@ -9,8 +9,12 @@ Plug 'scrooloose/syntastic'
 Plug 'jiangmiao/auto-pairs'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
-Plug 'airblade/vim-gitgutter'
 Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-repeat'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+
 
 Plug 'terryma/vim-multiple-cursors'
 Plug 'justinmk/vim-sneak'
@@ -39,6 +43,9 @@ Plug 'plasticboy/vim-markdown'
 
 " Style
 Plug 'joshdick/onedark.vim'
+Plug 'junegunn/seoul256.vim'
+Plug 'arcticicestudio/nord-vim'
+
 
 " Formatting
 Plug 'sbdchd/neoformat'
@@ -49,9 +56,17 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Python
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' } " for Python semantic highlight
 
+" Scala
+Plug 'derekwyatt/vim-scala'
+
+
 " FUTURE PLUGINS
 " https://vimawesome.com/plugin/ultisnips
 " https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode 
+" https://github.com/tpope/vim-unimpaired
+" https://github.com/svermeulen/vim-easyclip
+
+
 
 "" Initialize plugin system
 call plug#end()
@@ -72,6 +87,13 @@ set tabstop=2 shiftwidth=2 expandtab
 syntax on
 
 colorscheme onedark
+" colorscheme nord
+" colorscheme seoul256
+
+
+let g:seoul256_background = 235
+set background=dark
+
 
 set termguicolors
 
@@ -139,7 +161,10 @@ let g:neoformat_basic_format_retab = 1
 " Enable trimmming of trailing whitespace
 let g:neoformat_basic_format_trim = 1
 
-autocmd BufWritePre *.js,*.jsx,*.json,*.ts,*.css,*.scss,*.py Neoformat
+augroup fmt
+  autocmd!
+  autocmd BufWritePre *.js,*.jsx,*.ts,*.json,*.css,*.scss,*.py undojoin | Neoformat
+augroup END
 
 
 " Ctrl P Ignore Node Modules
