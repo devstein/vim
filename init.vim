@@ -2,7 +2,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/nerdtree'
-Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
@@ -12,6 +11,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-repeat'
 Plug 'mileszs/ack.vim'
+
+" File Finder
+Plug 'kien/ctrlp.vim'
+" PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -51,7 +56,7 @@ Plug 'arcticicestudio/nord-vim'
 " Formatting
 Plug 'sbdchd/neoformat'
 
-" Go 
+" Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Python
@@ -60,10 +65,13 @@ Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' } " for Python semantic h
 " Scala
 Plug 'derekwyatt/vim-scala'
 
+" Terraform
+Plug 'hashivim/vim-terraform'
+
 
 " FUTURE PLUGINS
 " https://vimawesome.com/plugin/ultisnips
-" https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode 
+" https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode
 " https://github.com/tpope/vim-unimpaired
 " https://github.com/svermeulen/vim-easyclip
 
@@ -83,7 +91,7 @@ inoremap jk <esc>
 
 " Always use spaces
 set tabstop=2 shiftwidth=2 expandtab
- 
+
 " Color Scheme
 syntax on
 
@@ -112,7 +120,7 @@ nnoremap <leader>f 1z=
 " Toggle Spellcheck
 nnoremap <leader>s :set spell!
 
-" Syntastic Configs 
+" Syntastic Configs
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -126,12 +134,17 @@ let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_yaml_checkers = ['yamllint']
 
-" Nerd Tree 
+" Nerd Tree
 set splitright
-let NERDTreeShowHidden=1
+let NERDTreeShowHidden=0
+
+"" Tree Explorer
+map <leader>nt :NERDTreeToggle<CR>
 
 " Show indents guides (Toggle with <Leader>ig)
 let g:indent_guides_enable_on_vim_startup = 1
+
+
 
 " Nerdcommenter
 " Add spaces after comment delimiters by default
@@ -147,7 +160,7 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
 
-" Neoformat 
+" Neoformat
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
 let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
 
@@ -170,3 +183,12 @@ augroup END
 
 " Ctrl P Ignore Node Modules
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
+
+" Terraform
+" https://github.com/hashivim/vim-terraform
+let g:terraform_align=1
+let g:terraform_fmt_on_save=1
+
+" Markdown
+" Disable auto folding
+let g:vim_markdown_folding_disabled = 1
