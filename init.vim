@@ -1,9 +1,9 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
-Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-eunuch'
 Plug 'scrooloose/syntastic'
 Plug 'jiangmiao/auto-pairs'
 Plug 'easymotion/vim-easymotion'
@@ -16,6 +16,9 @@ Plug 'mileszs/ack.vim'
 Plug 'kien/ctrlp.vim'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 
 
 " Git
@@ -56,7 +59,7 @@ Plug 'arcticicestudio/nord-vim'
 " Formatting
 Plug 'sbdchd/neoformat'
 
-" Go
+" Go 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Python
@@ -68,34 +71,42 @@ Plug 'derekwyatt/vim-scala'
 " Terraform
 Plug 'hashivim/vim-terraform'
 
+" Documentation
+Plug 'rizzatti/dash.vim'
 
 " FUTURE PLUGINS
 " https://vimawesome.com/plugin/ultisnips
-" https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode
+" https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode 
 " https://github.com/tpope/vim-unimpaired
 " https://github.com/svermeulen/vim-easyclip
 
 
+" MUST BE LAST
+Plug 'ryanoasis/vim-devicons'
 
 "" Initialize plugin system
 call plug#end()
 
-" On boot
-autocmd vimenter * NERDTree
 
 " Remap leader key
 let mapleader = "\<Space>"
 
-" jk to escape
+" jj and jk to escape
+inoremap jj <esc>
 inoremap jk <esc>
+
+" Ctrl+C to yank to clipboard
+vnoremap <C-c> "*y
 
 " Always use spaces
 set tabstop=2 shiftwidth=2 expandtab
-
+ 
 " Color Scheme
 syntax on
 
 colorscheme onedark
+let g:airline_theme='onedark'
+
 " colorscheme nord
 " colorscheme seoul256
 
@@ -103,13 +114,18 @@ colorscheme onedark
 let g:seoul256_background = 235
 set background=dark
 
-
 set termguicolors
-
 set number
 
-set spell spelllang=en_us
+" Fonts
+set conceallevel=3
+set encoding=UTF-8
+set guifont=SpaceMono\ Font:h11
+let g:airline_powerline_fonts = 1
 
+if exists("g:loaded_webdevicons")
+  call webdevicons#refresh()
+endif
 
 " Spellcheck
 set spell spelllang=en_us
@@ -120,7 +136,7 @@ nnoremap <leader>f 1z=
 " Toggle Spellcheck
 nnoremap <leader>s :set spell!
 
-" Syntastic Configs
+" Syntastic Configs 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -134,16 +150,15 @@ let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_yaml_checkers = ['yamllint']
 
-" Nerd Tree
+" Nerd Tree 
 set splitright
-let NERDTreeShowHidden=0
+let NERDTreeShowHidden=1
 
 "" Tree Explorer
-map <leader>nt :NERDTreeToggle<CR>
+map <leader>nt :NERDTreeToggle<CR> 
 
 " Show indents guides (Toggle with <Leader>ig)
 let g:indent_guides_enable_on_vim_startup = 1
-
 
 
 " Nerdcommenter
@@ -160,7 +175,7 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
 
-" Neoformat
+" Neoformat 
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
 let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
 
