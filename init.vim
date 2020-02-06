@@ -16,6 +16,7 @@ Plug 'mileszs/ack.vim'
 Plug 'kien/ctrlp.vim'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -207,3 +208,7 @@ let g:terraform_fmt_on_save=1
 " Markdown
 " Disable auto folding
 let g:vim_markdown_folding_disabled = 1
+
+
+" Python for NVIM
+let g:python3_host_prog = "/Users/devstein/.pyenv/versions/3.6.9/bin/python"
