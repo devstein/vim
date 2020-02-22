@@ -61,7 +61,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'sbdchd/neoformat'
 
 " Go 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', {  'tag': 'v1.22', 'do': ':GoUpdateBinaries' }
 
 " Python
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' } " for Python semantic highlight
@@ -179,6 +179,7 @@ let g:NERDTrimTrailingWhitespace = 1
 " Neoformat 
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
 let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
+let g:neoformat_enabled_sql= ['pg_format']
 
 let g:neoformat_run_all_formatters = 1
 
@@ -212,3 +213,33 @@ let g:vim_markdown_folding_disabled = 1
 
 " Python for NVIM
 let g:python3_host_prog = "/Users/devstein/.pyenv/versions/3.6.9/bin/python"
+
+" Go
+" https://github.com/fatih/vim-go-tutorial#vimrc-improvements
+
+" Save files on :make. This enables auto save on :GoBuild
+set autowrite
+
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+"
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+let g:go_auto_type_info = 1
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
