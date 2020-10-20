@@ -8,7 +8,7 @@
 ```bash
 brew install neovim
 pip install pynvim
-npm install -g nevoim
+npm install -g nevim
 ```
 
 ### 2. Alias `vim` and `vi` to `nvim`
