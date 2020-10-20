@@ -15,11 +15,9 @@ Plug 'mileszs/ack.vim'
 " File Finder
 Plug 'kien/ctrlp.vim'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 
 
 " Git
@@ -34,8 +32,9 @@ Plug 'scrooloose/nerdcommenter'
 " Web development
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'othree/html5.vim'
-Plug 'mattn/emmet-vim'
+Plug 'othree/html5.vim', { 'for': 'html' }
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+
 
 Plug 'valloric/youcompleteme', { 'do': './install.py' }
 Plug 'ervandew/supertab'
@@ -49,25 +48,28 @@ Plug 'christoomey/vim-tmux-navigator'
 
 " Both of these are for vim-markdown
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 " Style
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'arcticicestudio/nord-vim'
 
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+
 
 " Formatting
 Plug 'sbdchd/neoformat'
 
 " Go 
-Plug 'fatih/vim-go', {  'tag': 'v1.22', 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', {  'tag': 'v1.24', 'do': ':GoUpdateBinaries', 'for': 'go' }
 
 " Python
-Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' } " for Python semantic highlight
+Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' } " for Python semantic highlight
 
 " Scala
-Plug 'derekwyatt/vim-scala'
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
 " Terraform
 Plug 'hashivim/vim-terraform'
@@ -75,7 +77,16 @@ Plug 'hashivim/vim-terraform'
 " Documentation
 Plug 'rizzatti/dash.vim'
 
-" FUTURE PLUGINS
+" SQL
+Plug 'vim-scripts/SQLComplete.vim', { 'for': 'sql' }
+Plug 'vim-scripts/dbext.vim', { 'for': 'sql' }
+" Maybe consider switching for formatter
+" https://vimawesome.com/plugin/sqlutilities
+
+" Code Exploration
+Plug 'vim-scripts/taglist.vim'
+
+"" FUTURE PLUGINS
 " https://vimawesome.com/plugin/ultisnips
 " https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode 
 " https://github.com/tpope/vim-unimpaired
@@ -150,6 +161,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_yaml_checkers = ['yamllint']
+let g:syntastic_sql_checkers = ['sqlint']
 
 " Nerd Tree 
 set splitright
@@ -177,9 +189,14 @@ let g:NERDTrimTrailingWhitespace = 1
 
 
 " Neoformat 
-let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
+let g:neoformat_enabled_python = ['yapf', 'docformatter']
 let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
 let g:neoformat_enabled_sql= ['pg_format']
+
+let g:neoformat_sql_pg_format = {
+            \ 'exe': 'pg_format',
+            \ 'args': ['--wrap-limit 80'],
+            \ }
 
 let g:neoformat_run_all_formatters = 1
 
@@ -194,7 +211,7 @@ let g:neoformat_basic_format_trim = 1
 
 augroup fmt
   autocmd!
-  autocmd BufWritePre *.js,*.jsx,*.ts,*.json,*.css,*.scss,*.py undojoin | Neoformat
+  autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.css,*.scss,*.py,*.sql undojoin | Neoformat
 augroup END
 
 
@@ -212,7 +229,7 @@ let g:vim_markdown_folding_disabled = 1
 
 
 " Python for NVIM
-let g:python3_host_prog = "/Users/devstein/.pyenv/versions/3.6.9/bin/python"
+let g:python3_host_prog = "/Users/devstein/.pyenv/versions/3.8.2/bin/python"
 
 " Go
 " https://github.com/fatih/vim-go-tutorial#vimrc-improvements
@@ -226,6 +243,15 @@ nnoremap <leader>a :cclose<CR>
 
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <leader>v  <Plug>(go-vet)
+" autocmd FileType go nmap <leader>e  <Plug>(go-if-err)
+
+" Shortcuts for GoAlternate splits
+autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+
 "
 " run :GoBuild or :GoTestCompile based on the go file
 function! s:build_go_files()
@@ -243,3 +269,49 @@ let g:go_auto_type_info = 1
 
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
+
+let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_build_constraints = 1
+
+" let g:go_auto_sameids = 1
+
+" Goyo +_LimeLight
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+
+
+" Neovim Terminal Mode
+" https://neovim.io/doc/user/nvim_terminal_emulator.html
+:tnoremap <Esc> <C-\><C-n>
+:tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+:tnoremap <A-h> <C-\><C-N><C-w>h
+:tnoremap <A-j> <C-\><C-N><C-w>j
+:tnoremap <A-k> <C-\><C-N><C-w>k
+:tnoremap <A-l> <C-\><C-N><C-w>l
+:inoremap <A-h> <C-\><C-N><C-w>h
+:inoremap <A-j> <C-\><C-N><C-w>j
+:inoremap <A-k> <C-\><C-N><C-w>k
+:inoremap <A-l> <C-\><C-N><C-w>l
+:nnoremap <A-h> <C-w>h
+:nnoremap <A-j> <C-w>j
+:nnoremap <A-k> <C-w>k
+:nnoremap <A-l> <C-w>l
+
+
+
+" https://vim.fandom.com/wiki/Search_for_visually_selected_text
+" Maps // to search for visually selected text
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
