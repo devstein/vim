@@ -55,7 +55,13 @@ set spell spelllang=en_us
 
 5. Install Plugins via [vim-plug](https://github.com/junegunn/vim-plug) 
 
-To start off, add the following to the top of your `~/.vimrc`
+First install `vim-plug`
+```bash
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+```
+
+Then to start off, add the following to the top of your `~/.vimrc`
 
 
 ```vim
