@@ -21,8 +21,8 @@ alias vim="nvim"
 
 ### 3. Symlink `~/.vim/init.vim` to `~/.vimrc`
 
-```bashh
-ln -s ~/.vim/init.vim ~/.vimrc
+```bash
+ln -s ~/.vimrc ~/.vim/init.vim
 ```
 
 ### 4. Start modifying your `~/.vimrc`
