@@ -11,7 +11,7 @@ pip install pynvim
 npm install -g nevoim
 ```
 
-2. Alias `vim` and `vi` to `nvim`
+### 2. Alias `vim` and `vi` to `nvim`
 
 ```bash
 # Add these lines to your ~/.bashrc or ~/.zshrc
@@ -19,13 +19,13 @@ alias vi="nvim"
 alias vim="nvim"
 ```
 
-3. Symlink `~/.vim/init.vim` to `~/.vimrc`
+### 3. Symlink `~/.vim/init.vim` to `~/.vimrc`
 
 ```bashh
 ln -s ~/.vim/init.vim ~/.vimrc
 ```
 
-4. Start modifying your `~/.vimrc`
+### 4. Start modifying your `~/.vimrc`
 
 A few of my preferred settings 
 ```vim
@@ -53,7 +53,7 @@ set number
 set spell spelllang=en_us
 ```
 
-5. Install Plugins via [vim-plug](https://github.com/junegunn/vim-plug) 
+### 5. Install Plugins via [vim-plug](https://github.com/junegunn/vim-plug) 
 
 First install `vim-plug`
 ```bash
@@ -91,5 +91,5 @@ call plug#end()
 and run `:PlugInstall`
 
 
-6. Explore [Vim Awesome](https://vimawesome.com/) to find plugins
+### 6. Explore [Vim Awesome](https://vimawesome.com/) to find plugins
 
