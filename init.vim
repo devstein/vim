@@ -30,11 +30,11 @@ Plug 'justinmk/vim-sneak'
 Plug 'scrooloose/nerdcommenter'
 
 " Web development
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'quramy/tsuquyomi'
+
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'mattn/emmet-vim', { 'for': 'html' }
-
 
 Plug 'valloric/youcompleteme', { 'do': './install.py' }
 Plug 'ervandew/supertab'
@@ -62,8 +62,8 @@ Plug 'junegunn/goyo.vim'
 " Formatting
 Plug 'sbdchd/neoformat'
 
-" Go 
-Plug 'fatih/vim-go', {  'tag': 'v1.24', 'do': ':GoUpdateBinaries', 'for': 'go' }
+" Go
+Plug 'fatih/vim-go', {  'tag': 'v1.25', 'do': ':GoUpdateBinaries', 'for': 'go' }
 
 " Python
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' } " for Python semantic highlight
@@ -71,8 +71,14 @@ Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' } " for P
 " Scala
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
+" Rust
+Plug 'rust-lang/rust.vim'
+
 " Terraform
 Plug 'hashivim/vim-terraform'
+
+" Cue
+Plug 'jjo/vim-cue'
 
 " Documentation
 Plug 'rizzatti/dash.vim'
@@ -88,7 +94,7 @@ Plug 'vim-scripts/taglist.vim'
 
 "" FUTURE PLUGINS
 " https://vimawesome.com/plugin/ultisnips
-" https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode 
+" https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode
 " https://github.com/tpope/vim-unimpaired
 " https://github.com/svermeulen/vim-easyclip
 
@@ -112,7 +118,7 @@ vnoremap <C-c> "*y
 
 " Always use spaces
 set tabstop=2 shiftwidth=2 expandtab
- 
+
 " Color Scheme
 syntax on
 
@@ -148,7 +154,7 @@ nnoremap <leader>f 1z=
 " Toggle Spellcheck
 nnoremap <leader>s :set spell!
 
-" Syntastic Configs 
+" Syntastic Configs
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -163,12 +169,12 @@ let g:syntastic_python_checkers=['flake8']
 let g:syntastic_yaml_checkers = ['yamllint']
 let g:syntastic_sql_checkers = ['sqlint']
 
-" Nerd Tree 
+" Nerd Tree
 set splitright
 let NERDTreeShowHidden=1
 
 "" Tree Explorer
-map <leader>nt :NERDTreeToggle<CR> 
+map <leader>nt :NERDTreeToggle<CR>
 
 " Show indents guides (Toggle with <Leader>ig)
 let g:indent_guides_enable_on_vim_startup = 1
@@ -188,10 +194,20 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
 
-" Neoformat 
-let g:neoformat_enabled_python = ['yapf', 'docformatter']
+" Neoformat
+let g:neoformat_enabled_python = ['black', 'docformatter']
 let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
+let g:neoformat_enabled_typescript = ['tsfmt', 'prettier', 'eslint_d']
 let g:neoformat_enabled_sql= ['pg_format']
+
+" https://github.com/SpaceVim/SpaceVim/issues/3221
+let g:neoformat_typescriptreact_prettier = {
+    \ 'exe': 'prettier',
+    \ 'args': ['--stdin', '--stdin-filepath', '"%:p"', '--parser', 'typescript'],
+    \ 'stdin': 1
+    \ }
+
+let g:neoformat_enabled_typescriptreact = ['tsfmt', 'prettier',  'eslint_d']
 
 let g:neoformat_sql_pg_format = {
             \ 'exe': 'pg_format',
@@ -208,6 +224,7 @@ let g:neoformat_basic_format_retab = 1
 
 " Enable trimmming of trailing whitespace
 let g:neoformat_basic_format_trim = 1
+
 
 augroup fmt
   autocmd!
@@ -234,6 +251,14 @@ let g:python3_host_prog = "/Users/devstein/.pyenv/versions/3.8.2/bin/python"
 " Go
 " https://github.com/fatih/vim-go-tutorial#vimrc-improvements
 
+let g:go_fmt_command = "goimports"
+
+autocmd FileType go let b:go_fmt_options = {
+  \ 'goimports': '-local ' .
+    \ trim(system('{cd '. shellescape(expand('%:h')) .' && go list -m;}')),
+  \ }
+
+
 " Save files on :make. This enables auto save on :GoBuild
 set autowrite
 
@@ -243,8 +268,11 @@ nnoremap <leader>a :cclose<CR>
 
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <leader>v  <Plug>(go-vet)
-" autocmd FileType go nmap <leader>e  <Plug>(go-if-err)
+autocmd FileType go nmap <leader>e  <Plug>(go-iferr)
+autocmd FileType go nmap <leader>cv <Plug>(go-coverage)
+autocmd FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
 
 " Shortcuts for GoAlternate splits
 autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
@@ -315,3 +343,12 @@ vnoremap <silent> # :<C-U>
   \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gVzv:call setreg('"', old_reg, old_regtype)<CR>
+
+
+" Rust Config
+let g:rustfmt_autosave = 1
+
+" Jvascript, Typescript, React Config
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+let g:syntastic_typescriptreact_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
