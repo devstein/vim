@@ -88,12 +88,24 @@ Plug 'vim-scripts/taglist.vim'
 
 "" FUTURE PLUGINS
 " https://vimawesome.com/plugin/ultisnips
-" https://github.com/davidhalter/jedi-vim or https://github.com/python-mode/python-mode
 " https://github.com/tpope/vim-unimpaired
 " https://github.com/svermeulen/vim-easyclip
 "
 " Testing Copilot
 Plug 'github/copilot.vim'
+
+" CoC  Plugins
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
+Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
+Plug 'coc-extensions/coc-svelte', {'do': 'yarn install --frozen-lockfile'}
+Plug 'yaegassy/coc-sqlfluff', {'do': 'yarn install --frozen-lockfile'}
 
 " MUST BE LAST
 Plug 'ryanoasis/vim-devicons'
@@ -240,6 +252,10 @@ let g:python3_host_prog = "$HOME/.pyenv/shims/python3"
 
 " Go
 " https://github.com/fatih/vim-go-tutorial#vimrc-improvements
+" https://github.com/golang/tools/blob/master/gopls/doc/vim.md#vim-go
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 let g:go_fmt_command = "goimports"
 
@@ -248,6 +264,8 @@ autocmd FileType go let b:go_fmt_options = {
     \ trim(system('{cd '. shellescape(expand('%:h')) .' && go list -m;}')),
   \ }
 
+" Use Coc for gd
+let g:go_def_mapping_enabled = 0
 
 " Save files on :make. This enables auto save on :GoBuild
 set autowrite
@@ -514,3 +532,8 @@ nmap <leader>f  <Plug>(coc-format-selected)
 " --------
 " END -- CoC Config
 " --------
+
+" Svelte Config
+let g:vim_svelte_plugin_load_full_syntax = 1
+let g:vim_svelte_plugin_use_typescript = 1
+
