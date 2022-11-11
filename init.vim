@@ -12,7 +12,6 @@ Plug 'tpope/vim-repeat'
 Plug 'mileszs/ack.vim'
 
 " File Finder
-Plug 'kien/ctrlp.vim'
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -22,13 +21,11 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 " Git
 Plug 'airblade/vim-gitgutter'
 
-
 Plug 'terryma/vim-multiple-cursors'
-Plug 'justinmk/vim-sneak'
+Plug 'ggandor/leap.nvim'
 
 Plug 'scrooloose/nerdcommenter'
 
-Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'mattn/emmet-vim', { 'for': 'html' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -48,6 +45,10 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'sainnhe/sonokai'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'sainnhe/sonokai'
 
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
@@ -57,13 +58,10 @@ Plug 'junegunn/goyo.vim'
 Plug 'sbdchd/neoformat'
 
 " Go
-Plug 'fatih/vim-go', {  'tag': 'v1.25', 'do': ':GoUpdateBinaries', 'for': 'go' }
+Plug 'fatih/vim-go', {  'tag': 'v1.26', 'do': ':GoUpdateBinaries', 'for': 'go' }
 
 " Python
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' } " for Python semantic highlight
-
-" Scala
-Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
 " Rust
 Plug 'rust-lang/rust.vim'
@@ -94,6 +92,9 @@ Plug 'vim-scripts/taglist.vim'
 " Testing Copilot
 Plug 'github/copilot.vim'
 
+" Testing WakaTime
+Plug 'wakatime/vim-wakatime'
+
 " CoC  Plugins
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
@@ -102,10 +103,14 @@ Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
+Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
 Plug 'coc-extensions/coc-svelte', {'do': 'yarn install --frozen-lockfile'}
 Plug 'yaegassy/coc-sqlfluff', {'do': 'yarn install --frozen-lockfile'}
+Plug 'qiuxiang/coc-solidity', {'do': 'yarn install --frozen-lockfile'}
+Plug 'fannheyward/coc-pyright', {'do': 'yarn install --frozen-lockfile'}
+Plug 'fannheyward/coc-deno', {'do': 'yarn install --frozen-lockfile'}
+" https://github.com/fannheyward/coc-react-refactor
 
 " MUST BE LAST
 Plug 'ryanoasis/vim-devicons'
@@ -126,32 +131,6 @@ vnoremap <C-c> "*y
 
 " Always use spaces
 set tabstop=2 shiftwidth=2 expandtab
-
-" Color Scheme
-syntax on
-
-colorscheme onedark
-let g:airline_theme='onedark'
-
-" colorscheme nord
-" colorscheme seoul256
-
-
-let g:seoul256_background = 235
-set background=dark
-
-set termguicolors
-set number
-
-" Fonts
-set conceallevel=3
-set encoding=UTF-8
-set guifont=SpaceMono\ Font:h11
-let g:airline_powerline_fonts = 1
-
-if exists("g:loaded_webdevicons")
-  call webdevicons#refresh()
-endif
 
 " Spellcheck
 set spell spelllang=en_us
@@ -214,7 +193,7 @@ let g:neoformat_typescriptreact_prettier = {
     \ 'stdin': 1
     \ }
 
-let g:neoformat_enabled_typescriptreact = ['tsfmt', 'prettier', 'eslint_d']
+let g:neoformat_enabled_typescriptreact = ['prettier', 'eslint_d']
 
 let g:neoformat_run_all_formatters = 1
 
@@ -230,7 +209,8 @@ let g:neoformat_basic_format_trim = 1
 
 augroup fmt
   autocmd!
-  autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.css,*.scss,*.py,*.sql undojoin | Neoformat
+  " autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.css,*.scss,*.py,*.sql undojoin | Neoformat
+  autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.py,*.sql undojoin | Neoformat
 augroup END
 
 
@@ -278,7 +258,7 @@ autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <leader>v  <Plug>(go-vet)
-autocmd FileType go nmap <leader>e  <Plug>(go-iferr)
+autocmd FileType go nmap <leader>err <Plug>(go-iferr)
 autocmd FileType go nmap <leader>cv <Plug>(go-coverage)
 autocmd FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
 
@@ -359,46 +339,57 @@ let g:rustfmt_autosave = 1
 " --------
 " BEGIN -- CoC Config
 " --------
-" Set internal encoding of vim, not needed on neovim, since coc.nvim using some
-" unicode characters in the file autoload/float.vim
-set encoding=utf-8
+" https://github.com/neoclide/coc.nvim/wiki/F.A.Q#some-highlight-groups-not-work-after-colorscheme-command
+autocmd ColorScheme * call Highlight()
 
-" TextEdit might fail if hidden is not set.
-set hidden
+function! Highlight() abort
+  hi Conceal ctermfg=239 guifg=#504945
+  hi CocSearch ctermfg=12 guifg=#18A3FF
+endfunction
 
 " Some servers have issues with backup files, see #649.
 set nobackup
 set nowritebackup
 
-" Give more space for displaying messages.
-set cmdheight=2
-
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
 
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+      " \ coc#pum#visible() ? coc#pum#next(1) :
+      " \ CheckBackspace() ? "\<Tab>" :
+      " \ coc#refresh()
 
-function! s:check_back_space() abort
+" https://github.com/neoclide/coc.nvim/wiki/F.A.Q#tab-not-working-well-with-copilotvim
+let g:copilot_no_tab_map = v:true
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ exists('b:_copilot.suggestions') ? copilot#Accept("\<CR>") :
+      \ CheckBackSpace() ? "\<Tab>" :
+      \ coc#refresh()
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <S-TAB>
+      \ coc#pum#visible() ? coc#pum#prev(1):
+      \ exists('b:_copilot.suggestions') ? copilot#Accept("\<CR>") :
+      \ CheckBackSpace() ? "\<Tab>" :
+      \ coc#refresh()
+
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
@@ -409,11 +400,6 @@ if has('nvim')
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -427,15 +413,13 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+    call feedkeys('K', 'in')
   endif
 endfunction
 
@@ -467,6 +451,9 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
@@ -494,13 +481,13 @@ nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call CocActionAsync('format')
 
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -509,21 +496,21 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> cca  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> cce  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> ccc  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> cco  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> ccs  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent><nowait> ccj  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent><nowait> cck  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> ccp  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 vmap <leader>f  <Plug>(coc-format-selected)
@@ -537,3 +524,38 @@ nmap <leader>f  <Plug>(coc-format-selected)
 let g:vim_svelte_plugin_load_full_syntax = 1
 let g:vim_svelte_plugin_use_typescript = 1
 
+
+" Color Scheme
+" After CoC config
+syntax on
+
+colorscheme onedark
+let g:airline_theme='onedark'
+
+" colorscheme nord
+" colorscheme seoul256
+" colorscheme tokyonight
+autocmd vimenter * ++nested colorscheme tokyonight
+
+let g:seoul256_background = 235
+set background=dark
+
+set termguicolors
+set number
+
+" Fonts
+set conceallevel=3
+set encoding=UTF-8
+set guifont=SpaceMono\ Font:h11
+let g:airline_powerline_fonts = 1
+
+if exists("g:loaded_webdevicons")
+  call webdevicons#refresh()
+endif
+
+" https://www.reddit.com/r/neovim/comments/ypvrwp/comment/ivmehp0/?utm_source=share&utm_medium=web2x&context=3
+autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=400 }
+
+" FZF Customization
+" Set ctrl-p to search  git files
+nnoremap <C-p> :GFiles<Cr>
