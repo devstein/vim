@@ -18,6 +18,10 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 
 
+" Future plugins
+" https://github.com/michaelb/sniprun
+
+
 " Git
 Plug 'airblade/vim-gitgutter'
 
@@ -46,6 +50,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'shaunsingh/oxocarbon.nvim', { 'do': './install.sh' }
 Plug 'sainnhe/sonokai'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'sainnhe/sonokai'
@@ -254,6 +259,7 @@ map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
 
+autocmd FileType go nmap <leader>i  <Plug>(go-install)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
@@ -534,8 +540,8 @@ let g:airline_theme='onedark'
 
 " colorscheme nord
 " colorscheme seoul256
-" colorscheme tokyonight
-autocmd vimenter * ++nested colorscheme tokyonight
+" autocmd vimenter * ++nested colorscheme tokyonight
+autocmd vimenter * ++nested colorscheme oxocarbon
 
 let g:seoul256_background = 235
 set background=dark
@@ -559,3 +565,8 @@ autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', 
 " FZF Customization
 " Set ctrl-p to search  git files
 nnoremap <C-p> :GFiles<Cr>
+
+" Enable Leap
+" https://github.com/ggandor/leap.nvim#faq
+lua require('leap').add_default_mappings()
+" TODO: Re-map d to x
