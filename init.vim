@@ -4,9 +4,9 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-eunuch'
-Plug 'scrooloose/syntastic'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-repeat'
 Plug 'mileszs/ack.vim'
@@ -46,24 +46,20 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 " Style
-Plug 'joshdick/onedark.vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'shaunsingh/oxocarbon.nvim', { 'do': './install.sh' }
-Plug 'sainnhe/sonokai'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'sainnhe/sonokai'
+Plug 'shaunsingh/oxocarbon.nvim'
+Plug 'olimorris/onedarkpro.nvim'
+Plug 'marko-cerovac/material.nvim'
+" Plug 'rebelot/kanagawa.nvim'
 
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 
 
-" Formatting
-Plug 'sbdchd/neoformat'
-
 " Go
-Plug 'fatih/vim-go', {  'tag': 'v1.26', 'do': ':GoUpdateBinaries', 'for': 'go' }
+Plug 'fatih/vim-go', {  'tag': 'v1.28', 'do': ':GoUpdateBinaries', 'for': 'go' }
 
 " Python
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' } " for Python semantic highlight
@@ -81,8 +77,8 @@ Plug 'jjo/vim-cue'
 Plug 'earthly/earthly.vim', { 'branch': 'main' }
 
 " SQL
-Plug 'vim-scripts/SQLComplete.vim', { 'for': 'sql' }
-Plug 'vim-scripts/dbext.vim', { 'for': 'sql' }
+" Plug 'vim-scripts/SQLComplete.vim', { 'for': 'sql' }
+" Plug 'vim-scripts/dbext.vim', { 'for': 'sql' }
 " Maybe consider switching for formatter
 " https://vimawesome.com/plugin/sqlutilities
 
@@ -108,14 +104,23 @@ Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
-Plug 'coc-extensions/coc-svelte', {'do': 'yarn install --frozen-lockfile'}
-Plug 'yaegassy/coc-sqlfluff', {'do': 'yarn install --frozen-lockfile'}
+
+Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
+Plug 'yaegassy/coc-marksman', {'do': 'yarn install --frozen-lockfile'}
+Plug 'yaegassy/coc-ruff', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'yaegassy/coc-sqlfluff', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'yaegassy/coc-pydocstring', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'yaegassy/coc-vitest', {'do': 'yarn install --frozen-lockfile'}
+
+" Plug 'coc-extensions/coc-svelte', {'do': 'yarn install --frozen-lockfile'}
 Plug 'qiuxiang/coc-solidity', {'do': 'yarn install --frozen-lockfile'}
 Plug 'fannheyward/coc-pyright', {'do': 'yarn install --frozen-lockfile'}
 Plug 'fannheyward/coc-deno', {'do': 'yarn install --frozen-lockfile'}
 " https://github.com/fannheyward/coc-react-refactor
+"
+" Trying out TreeSitter for syntax highlighting
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " MUST BE LAST
 Plug 'ryanoasis/vim-devicons'
@@ -146,21 +151,6 @@ nnoremap <leader>f 1z=
 " Toggle Spellcheck
 nnoremap <leader>s :set spell!
 
-" Syntastic Configs
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_javascript_checkers=['eslint']
-let g:syntastic_python_checkers=['flake8']
-let g:syntastic_yaml_checkers = ['yamllint']
-let g:syntastic_sql_checkers = ['sqlint']
-
 " Nerd Tree
 set splitright
 let NERDTreeShowHidden=1
@@ -184,39 +174,6 @@ let g:NERDCommentEmptyLines = 1
 
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
-
-
-" Neoformat
-let g:neoformat_enabled_python = ['black', 'docformatter']
-let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
-let g:neoformat_enabled_typescript = ['prettier', 'eslint_d']
-
-" https://github.com/SpaceVim/SpaceVim/issues/3221
-let g:neoformat_typescriptreact_prettier = {
-    \ 'exe': 'prettier',
-    \ 'args': ['--stdin', '--stdin-filepath', '"%:p"', '--parser', 'typescript'],
-    \ 'stdin': 1
-    \ }
-
-let g:neoformat_enabled_typescriptreact = ['prettier', 'eslint_d']
-
-let g:neoformat_run_all_formatters = 1
-
-" Enable alignment
-let g:neoformat_basic_format_align = 1
-
-" Enable tab to spaces conversion
-let g:neoformat_basic_format_retab = 1
-
-" Enable trimmming of trailing whitespace
-let g:neoformat_basic_format_trim = 1
-
-
-augroup fmt
-  autocmd!
-  " autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.css,*.scss,*.py,*.sql undojoin | Neoformat
-  autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.py,*.sql undojoin | Neoformat
-augroup END
 
 
 " Ctrl P Ignore Node Modules
@@ -535,13 +492,16 @@ let g:vim_svelte_plugin_use_typescript = 1
 " After CoC config
 syntax on
 
-colorscheme onedark
+" colorscheme onedark
+colorscheme material
 let g:airline_theme='onedark'
+" let g:material_style='deep ocean'
+let g:material_style = 'palenight'
 
 " colorscheme nord
 " colorscheme seoul256
 " autocmd vimenter * ++nested colorscheme tokyonight
-autocmd vimenter * ++nested colorscheme oxocarbon
+" autocmd vimenter * ++nested colorscheme oxocarbon
 
 let g:seoul256_background = 235
 set background=dark
@@ -565,8 +525,15 @@ autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', 
 " FZF Customization
 " Set ctrl-p to search  git files
 nnoremap <C-p> :GFiles<Cr>
+noremap <leader>ff :Files<Cr>
+nnoremap <leader>fg :GFiles<Cr>
+nnoremap <leader>fb :Buffers<Cr>
 
 " Enable Leap
 " https://github.com/ggandor/leap.nvim#faq
 lua require('leap').add_default_mappings()
 " TODO: Re-map d to x
+
+" Current Copilot doesn't support >= Node 18
+" " vimscript
+let g:copilot_node_command = "~/.nvm/versions/node/v16.15.0/bin/node"
